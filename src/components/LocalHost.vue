@@ -1,33 +1,42 @@
 <template>
   <div class="content">
     <div class="grid">
-      <h1 class="card">Localhost</h1>
-      <div class="search">
-        <input
-          class="card"
-          type="url"
-          placeholder="Ingrese url"
-          v-model="url"
-          @keyup="redireccionar"
-        />
-        <button class="card" @click="redireccionar">Ir</button>
+      <div class="card">
+        <h3 class="card-header">Url personalizada</h3>
+        <div class="search card-body">
+          <input
+            type="url"
+            placeholder="Ingrese url"
+            v-model="url"
+            @keyup="redireccionar"
+          />
+          <button @click="redireccionar">Ir</button>
+        </div>
       </div>
-      <div class="card urls" v-for="(puerto, i) of puertos" :key="i">
-        <a :href="'http://localhost' + puerto">localhost{{ puerto }}</a>
-        <a :href="'http://' + urlMobile + puerto"
-          >{{ urlMobile }}{{ puerto }}</a
-        >
+      <div class="card">
+        <h3 class="card-header">Url Network</h3>
+        <div class="config-mobile card-body">
+          <input
+            type="text"
+            placeholder="Ingrese url mobile"
+            v-model="urlMobile"
+            @keyup="cambiarUrlMobile"
+          />
+          <button @click="cambiarUrlMobile">
+            Guardar
+          </button>
+        </div>
       </div>
-      <h3 class="card">Url mobile</h3>
-      <div class="config-mobile">
-        <input
-          class="card"
-          type="text"
-          placeholder="Ingrese url mobile"
-          v-model="urlMobile"
-          @keyup="cambiarUrlMobile"
-        />
-        <button class="card" @click="cambiarUrlMobile">Cambiar</button>
+      <div class="card">
+        <h3 class="card-header">Url Local - Url Network</h3>
+        <div class="card-body">
+          <div class="urls" v-for="(puerto, i) of puertos" :key="i">
+            <a :href="'http://localhost' + puerto">localhost{{ puerto }}</a>
+            <a :href="'http://' + urlMobile + puerto"
+              >{{ urlMobile }}{{ puerto }}</a
+            >
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -58,7 +67,7 @@ export default {
       }
     },
     cambiarUrlMobile(e) {
-      if (e.key === "Enter" || e.target.textContent === "Cambiar") {
+      if (e.key === "Enter" || e.target.textContent === "Guardar") {
         localStorage.setItem("urlMobile", this.urlMobile);
       }
     },
@@ -92,10 +101,10 @@ export default {
 .grid input {
   flex: 1;
   outline: none;
-  border: none;
+  padding: 0.5rem 1rem;
 }
 .grid button {
-  border: none;
+  padding: 0.5rem 1rem;
   margin-left: 0.5rem;
   cursor: pointer;
   outline: none;
@@ -103,9 +112,12 @@ export default {
 .urls {
   display: flex;
   justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #bbb;
 }
 .urls a {
   text-decoration: none;
   font-weight: bold;
+  color: #333;
 }
 </style>

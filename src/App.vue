@@ -26,6 +26,13 @@ export default {
   background-color: #fff;
   color: #000;
   border-radius: 0.5rem;
+  overflow: hidden;
+}
+.card-header {
+  padding: 1rem;
+  background-color: #bbb;
+}
+.card-body {
   padding: 1rem;
 }
 
