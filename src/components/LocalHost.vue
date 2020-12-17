@@ -12,13 +12,23 @@
         />
         <button class="card" @click="redireccionar">Ir</button>
       </div>
-      <a class="card" href="http://localhost">localhost</a>
-      <a class="card" href="http://localhost:3000">localhost:3000</a>
-      <a class="card" href="http://localhost:4000">localhost:4000</a>
-      <a class="card" href="http://localhost:5000">localhost:5000</a>
-      <a class="card" href="http://localhost:5500">localhost:5500</a>
-      <a class="card" href="http://localhost:8000">localhost:8000</a>
-      <a class="card" href="http://localhost:8080">localhost:8080</a>
+      <div class="card urls" v-for="(puerto, i) of puertos" :key="i">
+        <a :href="'http://localhost' + puerto">localhost{{ puerto }}</a>
+        <a :href="'http://' + urlMobile + puerto"
+          >{{ urlMobile }}{{ puerto }}</a
+        >
+      </div>
+      <h3 class="card">Url mobile</h3>
+      <div class="config-mobile">
+        <input
+          class="card"
+          type="text"
+          placeholder="Ingrese url mobile"
+          v-model="urlMobile"
+          @keyup="cambiarUrlMobile"
+        />
+        <button class="card" @click="cambiarUrlMobile">Cambiar</button>
+      </div>
     </div>
   </div>
 </template>
@@ -32,12 +42,24 @@ export default {
   data() {
     return {
       url: "",
+      urlMobile: "192.168.0.11",
+      puertos: ["", ":3000", ":4000", ":5000", ":5500", ":8000", ":8080"],
     };
+  },
+  created() {
+    if (localStorage.getItem("urlMobile")) {
+      this.urlMobile = localStorage.getItem("urlMobile");
+    }
   },
   methods: {
     redireccionar(e) {
       if (e.key === "Enter" || e.target.textContent === "Ir") {
         location.href = this.url;
+      }
+    },
+    cambiarUrlMobile(e) {
+      if (e.key === "Enter" || e.target.textContent === "Cambiar") {
+        localStorage.setItem("urlMobile", this.urlMobile);
       }
     },
   },
@@ -50,10 +72,6 @@ export default {
   background-color: #555;
   color: #fff;
   min-height: 100vh;
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column; */
 }
 .grid {
   padding: 1rem;
@@ -63,21 +81,31 @@ export default {
   align-items: center;
   gap: 1rem;
 }
-.grid h1 {
+.grid h1,
+.grid h3 {
   text-align: center;
 }
-.grid .search {
+.grid .search,
+.grid .config-mobile {
   display: flex;
 }
-.grid .search input {
+.grid input {
   flex: 1;
   outline: none;
   border: none;
 }
-.grid .search button {
+.grid button {
   border: none;
   margin-left: 0.5rem;
   cursor: pointer;
   outline: none;
+}
+.urls {
+  display: flex;
+  justify-content: space-between;
+}
+.urls a {
+  text-decoration: none;
+  font-weight: bold;
 }
 </style>
